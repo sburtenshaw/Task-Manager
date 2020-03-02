@@ -130,49 +130,58 @@ export default class App extends Component {
 		this.getTasksFromStorage();
 	}
 
-	getTasksFromStorage = () => {
-		this.tasksLoading = true;
-		this.storage.getTasks().then(storedTasks => {
-			this.updateStateTasks(storedTasks, () => {
-				this.tasksLoading = false;
+	getTasksFromStorage = () =>
+		new Promise(resolve => {
+			this.tasksLoading = true;
+			this.storage.getTasks().then(storedTasks => {
+				this.updateStateTasks(storedTasks).then(() => {
+					this.tasksLoading = false;
+					resolve();
+				});
 			});
 		});
-	};
 
-	addTask = task => {
-		this.storage.addTask(task).then(updatedTasks =>
-			this.updateStateTasks(updatedTasks, () => {
-				this.closeManageTaskDrawer();
-			})
-		);
-	};
+	addTask = task =>
+		new Promise(resolve => {
+			this.storage.addTask(task).then(updatedTasks =>
+				this.updateStateTasks(updatedTasks).then(() => {
+					this.closeManageTaskDrawer();
+					resolve();
+				})
+			);
+		});
 
-	updateTask = (updateId, updateTask) => {
-		this.storage.updateTask(updateId, updateTask).then(updatedTasks =>
-			this.updateStateTasks(updatedTasks, () => {
-				this.closeManageTaskDrawer();
-			})
-		);
-	};
+	updateTask = (updateId, updateTask) =>
+		new Promise(resolve => {
+			this.storage.updateTask(updateId, updateTask).then(updatedTasks =>
+				this.updateStateTasks(updatedTasks).then(() => {
+					this.closeManageTaskDrawer();
+					resolve();
+				})
+			);
+		});
 
-	deleteTask = deleteId => {
-		this.storage.deleteTask(deleteId).then(updatedTasks =>
-			this.updateStateTasks(updatedTasks, () => {
-				this.closeDeleteTaskDiolog();
-			})
-		);
-	};
+	deleteTask = deleteId =>
+		new Promise(resolve => {
+			this.storage.deleteTask(deleteId).then(updatedTasks =>
+				this.updateStateTasks(updatedTasks).then(() => {
+					this.closeDeleteTaskDiolog();
+					resolve();
+				})
+			);
+		});
 
-	updateStateTasks = (updatedTasks, callback) => {
-		this.setState(
-			{
-				tasks: updatedTasks
-			},
-			() => {
-				if (callback) callback();
-			}
-		);
-	};
+	updateStateTasks = updatedTasks =>
+		new Promise(resolve => {
+			this.setState(
+				{
+					tasks: updatedTasks
+				},
+				() => {
+					resolve();
+				}
+			);
+		});
 
 	getTaskFromState = getId => {
 		const { tasks = [] } = this.state;
@@ -271,7 +280,7 @@ export default class App extends Component {
 					<Fragment>
 						<DrawerHeader>
 							<CloseIcon onClick={this.closeManageTaskDrawer} />
-							{/*<Typography variant="h5">View Task</Typography>*/}
+							<Typography variant="h5">Task Details</Typography>
 						</DrawerHeader>
 						<ViewTaskDrawerContent
 							task={this.getTaskFromState(id)}

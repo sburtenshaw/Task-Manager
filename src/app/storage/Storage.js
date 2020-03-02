@@ -29,6 +29,7 @@ export default class Storage {
 				{ id: this.tasks.length + 1, complete: false, ...task }
 			];
 			this.localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+			this.tasks = updatedTasks;
 			resolve(updatedTasks);
 		});
 	}
@@ -39,6 +40,7 @@ export default class Storage {
 				task.id === updateId ? updateTask : task
 			);
 			this.localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+			this.tasks = updatedTasks;
 			resolve(updatedTasks);
 		});
 	}
@@ -47,6 +49,7 @@ export default class Storage {
 		return new Promise(resolve => {
 			const updatedTasks = this.tasks.filter(({ id }) => id !== deleteId);
 			this.localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+			this.tasks = updatedTasks;
 			resolve(updatedTasks);
 		});
 	}
