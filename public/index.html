@@ -39,5 +39,25 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      function addDummyTasks(amount = 0) {
+        const tasks = [];
+        let index = 1;
+        while (index <= amount) {
+          tasks.push({
+            id: index,
+            complete: false,
+            name: `name${index}`,
+            description: `description${index}`,
+            due: new Date()
+          });
+          index++;
+        }
+        window.localStorage.setItem("tasks", JSON.stringify(tasks));
+      }
+      function resetTasks() {
+        window.localStorage.removeItem("tasks");
+      }
+    </script>
   </body>
 </html>

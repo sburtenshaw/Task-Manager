@@ -10,4 +10,6 @@ describe("TaskList tests", () => {
 	test("Search correctly filters the list of tasks and orders them based on relevance", () => {});
 
 	test("Clicking the Add Task button correctly runs addTaskButtonClick function", () => {});
+
+	test("Scrolling to the bottom of the list loads more tasks", () => {});
 });
