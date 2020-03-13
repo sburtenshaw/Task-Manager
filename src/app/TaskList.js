@@ -47,7 +47,7 @@ export default class TaskList extends Component {
 			completeTaskIconClick,
 			onTaskListScroll
 		} = this.props;
-		const { search } = this.state;
+		const { search = "" } = this.state;
 		return (
 			<Fragment>
 				<HeaderGrid
@@ -83,9 +83,14 @@ export default class TaskList extends Component {
 								name.toLowerCase().includes(search) && !complete
 						)
 						.sort(
-							({ name: aName }, { name: bName }) =>
-								aName.toLowerCase().indexOf(search) -
-								bName.toLowerCase().indexOf(search)
+							(
+								{ name: aName, due: aDue },
+								{ name: bName, due: bDue }
+							) =>
+								search === ""
+									? aDue - bDue
+									: aName.toLowerCase().indexOf(search) -
+									  bName.toLowerCase().indexOf(search)
 						)
 						.map((task, i) => (
 							<Task
