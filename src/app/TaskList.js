@@ -88,7 +88,8 @@ export default class TaskList extends Component {
 								{ name: bName, due: bDue }
 							) =>
 								search === ""
-									? aDue - bDue
+									? new Date(aDue).getTime() -
+									  new Date(bDue).getTime()
 									: aName.toLowerCase().indexOf(search) -
 									  bName.toLowerCase().indexOf(search)
 						)
